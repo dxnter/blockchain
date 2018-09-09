@@ -1,27 +1,59 @@
 from functools import reduce
 import hashlib
 from collections import OrderedDict
+import json
+import pickle
 
 from hash_util import hash_string_256, hash_block
 
 MINING_REWARD = 10
 
-genesis_block = {
-    'previous_hash': 'GENESIS',
-    'index': 0,
-    'transactions': [],
-    'proof': 100
-}
-blockchain = [genesis_block]
+blockchain = []
 open_transactions = []
 owner = 'Danny'
 participants = {'Danny'}
 
 
+def load_data():
+    global blockchain
+    global open_transactions
+    try:
+        with open('blockchain.p', mode='rb') as f:
+            file_content = pickle.loads(f.read())
+
+            blockchain = file_content['chain']
+            open_transactions = file_content['ot']
+    except IOError:
+        genesis_block = {
+            'previous_hash': 'GENESIS',
+            'index': 0,
+            'transactions': [],
+            'proof': 100
+        }
+        blockchain = [genesis_block]
+        open_transactions = []
+
+
+load_data()
+
+
+def save_data():
+    try:
+        with open('blockchain.p', mode='wb') as f:
+            # f.write(json.dumps(blockchain))
+            # f.write('\n')
+            # f.write(json.dumps(open_transactions))
+            save_data = {
+                'chain': blockchain,
+                'ot': open_transactions
+            }
+            f.write(pickle.dumps(save_data))
+    except IOError:
+        print('Saving failed!')
+
 def valid_proof(transactions, last_hash, proof):
     guess = (str(transactions) + str(last_hash) + str(proof)).encode()
     guess_hash = hash_string_256(guess)
-    print(guess_hash)
     return guess_hash[0:2] == '00'
 
 
@@ -79,6 +111,7 @@ def add_transaction(recipient, sender=owner, amount=1.0):
         open_transactions.append(transaction)
         participants.add(sender)
         participants.add(recipient)
+        save_data()
         return True
     return False
 
@@ -169,6 +202,7 @@ while waiting_for_input:
     elif user_choice == '2':
         if mine_block():
             open_transactions = []
+            save_data()
     elif user_choice == '3':
         print_blockchain_elements()
     elif user_choice == '4':
