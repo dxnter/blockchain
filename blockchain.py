@@ -133,6 +133,7 @@ waiting_for_input = True
 # A while loop for the user input interface
 # It's a loop that exits once waiting_for_input becomes False or when break is called
 while waiting_for_input:
+    print('*' * 20)
     print('Please choose')
     print('1: Add a new transaction value')
     print('2: Mine a new block')
@@ -181,7 +182,7 @@ while waiting_for_input:
         print('Invalid blockchain!')
         # Break out of the loop
         break
-    print(get_balance('Danny'))
+    print('Balance of {}: {:6.2f}'.format('Danny', get_balance('Danny')))
 else:
     print('User left!')
 
