@@ -55,7 +55,8 @@ load_data()
 def save_data():
     try:
         with open('blockchain.txt', mode='w') as f:
-            saveable_chain = [block.__dict__ for block in blockchain]
+            saveable_chain = [block.__dict__ for block in [Block(
+                block_el.index, block_el.previous_hash, [tx.__dict__ for tx in block_el.transactions], block_el.proof, block_el.timestamp) for block_el in blockchain]]
             f.write(json.dumps(saveable_chain))
             f.write('\n')
             saveable_tx = [tx.__dict__ for tx in open_transactions]
