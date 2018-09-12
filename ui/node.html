@@ -60,6 +60,19 @@
                     <h1>Manage your Blockchain</h1>
                 </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/">Wallet &amp; Node</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/network">Network</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
             <div v-if="error" class="alert alert-danger" role="alert">
                 {{ error }}
             </div>
@@ -269,7 +282,7 @@
                         })
                         .catch(err => {
                             this.success = null;
-                            this.error = err.data.message;
+                            this.error = err.response.data.message;
                             this.wallet = null;
                             this.walletLoading = false;
                         })
@@ -306,6 +319,7 @@
                             this.success = null;
                             this.error = err.data.message
                         })
+                    this.onLoadData()
                 },
                 onLoadData: function () {
                     if (this.view === 'chain') {
