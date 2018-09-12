@@ -96,6 +96,8 @@ class Blockchain:
     def get_balance(self):
         """Calculate and return the balance for a participant.
         """
+        if self.hosting_node == None:
+            return None
         participant = self.hosting_node
         # Fetch a list of all sent coin amounts for the given person (empty lists are returned if the person was NOT the sender)
         # This fetches sent amounts of transactions that were already included in blocks of the blockchain
@@ -144,7 +146,7 @@ class Blockchain:
     def mine_block(self):
         """Create a new block and add open transactions to it."""
         if self.hosting_node == None:
-            return False
+            return None
         last_block = self.__chain[-1]
         hashed_block = hash_block(last_block)
         proof = self.proof_of_work()
@@ -160,4 +162,4 @@ class Blockchain:
         self.__chain.append(block)
         self.__open_transactions = []
         self.save_data()
-        return True
+        return block
