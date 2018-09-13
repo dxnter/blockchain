@@ -14,7 +14,8 @@ MINING_REWARD = 10
 
 
 class Blockchain:
-    """The Blockchain class manages the chain of blocks as well as open transactions and the node on which it's running.
+    """The Blockchain class manages the chain of blocks as well as open transactions
+    and the node on which it's running.
 
     Attributes:
         :chain: The list of blocks

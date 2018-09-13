@@ -1,3 +1,5 @@
+export const FETCH_ACTIVE_TAB = 'FETCH_ACTIVE_TAB';
+
 export const CREATE_WALLET = 'CREATE_WALLET';
 export const LOAD_WALLET = 'LOAD_WALLET';
 export const SEND_TX = 'SEND_TX';
