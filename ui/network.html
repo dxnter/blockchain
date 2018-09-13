@@ -76,47 +76,50 @@
                 nodes: [],
                 newNodeUrl: '',
                 error: null,
-                success: null,
+                success: null
             },
             methods: {
                 onAddNode: function () {
                     // Add node as peer node to local node server
+                    var vm = this;
                     axios.post('/node', { node: this.newNodeUrl })
-                        .then(response => {
-                            this.success = 'Stored node successfully.';
-                            this.error = null;
-                            this.nodes = response.data.all_nodes
+                        .then(function (response) {
+                            vm.success = 'Stored node successfully.';
+                            vm.error = null;
+                            vm.nodes = response.data.all_nodes
                         })
-                        .catch(err => {
-                            this.success = null;
-                            this.error = err.response.data.message;
-                        })
+                        .catch(function (error) {
+                            vm.success = null;
+                            vm.error = error.response.data.message;
+                        });
                 },
                 onLoadNodes: function () {
                     // Load all peer nodes of the local node server
+                    var vm = this;
                     axios.get('/nodes')
-                        .then(response => {
-                            this.success = 'Fetched nodes successfully.';
-                            this.error = null;
-                            this.nodes = response.data.all_nodes
+                        .then(function (response) {
+                            vm.success = 'Fetched nodes successfully.';
+                            vm.error = null;
+                            vm.nodes = response.data.all_nodes
                         })
-                        .catch(err => {
-                            this.success = null;
-                            this.error = err.response.data.message;
-                        })
+                        .catch(function (error) {
+                            vm.success = null;
+                            vm.error = error.response.data.message;
+                        });
                 },
                 onRemoveNode: function (node_url) {
                     // Remove node as a peer node
-                    axios.delete(`/node/${node_url}`)
-                        .then(response => {
-                            this.success = 'Deleted node successfully.';
-                            this.error = null;
-                            this.nodes = response.data.all_nodes
+                    var vm = this;
+                    axios.delete('/node/' + node_url)
+                        .then(function (response) {
+                            vm.success = 'Deleted node successfully.';
+                            vm.error = null;
+                            vm.nodes = response.data.all_nodes
                         })
-                        .catch(err => {
-                            this.success = null;
-                            this.error = err.response.data.message;
-                        })
+                        .catch(function (error) {
+                            vm.success = null;
+                            vm.error = error.response.data.message;
+                        });
                 }
             }
         })
