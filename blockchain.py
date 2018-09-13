@@ -2,20 +2,15 @@ from functools import reduce
 import hashlib as hl
 
 import json
-import pickle
 import requests
 
-# Import two functions from our hash_util.py file. Omit the ".py" in the import
 from utility.hash_util import hash_block
 from utility.verification import Verification
 from block import Block
 from transaction import Transaction
 from wallet import Wallet
 
-# The reward we give to miners (for creating a new block)
 MINING_REWARD = 10
-
-print(__name__)
 
 
 class Blockchain:
@@ -28,24 +23,19 @@ class Blockchain:
     """
 
     def __init__(self, public_key, node_id):
-        """The constructor of the Blockchain class."""
-        # Our starting block for the blockchain
         genesis_block = Block(0, '', [], 100, 0)
-        # Initializing our (empty) blockchain list
         self.chain = [genesis_block]
-        # Unhandled transactions
         self.__open_transactions = []
         self.public_key = public_key
         self.__peer_nodes = set()
         self.node_id = node_id
+        self.resolve_conflicts = False
         self.load_data()
 
-    # This turns the chain attribute into a property with a getter (the method below) and a setter (@chain.setter)
     @property
     def chain(self):
         return self.__chain[:]
 
-    # The setter for the chain property
     @chain.setter
     def chain(self, val):
         self.__chain = val
@@ -58,12 +48,8 @@ class Blockchain:
         """Initialize blockchain + open transactions data from a file."""
         try:
             with open('blockchain-{}.txt'.format(self.node_id), mode='r') as f:
-                # file_content = pickle.loads(f.read())
                 file_content = f.readlines()
-                # blockchain = file_content['chain']
-                # open_transactions = file_content['ot']
                 blockchain = json.loads(file_content[0][:-1])
-                # We need to convert  the loaded data because Transactions should use OrderedDict
                 updated_blockchain = []
                 for block in blockchain:
                     converted_tx = [Transaction(
@@ -73,7 +59,6 @@ class Blockchain:
                     updated_blockchain.append(updated_block)
                 self.chain = updated_blockchain
                 open_transactions = json.loads(file_content[1][:-1])
-                # We need to convert  the loaded data because Transactions should use OrderedDict
                 updated_transactions = []
                 for tx in open_transactions:
                     updated_transaction = Transaction(
@@ -113,8 +98,8 @@ class Blockchain:
     def get_balance(self, sender=None):
         """Calculate and return the balance for a participant.
         """
-        if sender == None:
-            if self.public_key == None:
+        if sender is None:
+            if self.public_key is None:
                 return None
             participant = self.public_key
         else:
@@ -146,10 +131,6 @@ class Blockchain:
             return None
         return self.__chain[-1]
 
-    # This function accepts two arguments.
-    # One required one (transaction_amount) and one optional one (last_transaction)
-    # The optional one is optional because it has a default value => [1]
-
     def add_transaction(self, recipient, sender, signature, amount=1.0, is_receiving=False):
         """ Append a new value as well as the last blockchain value to the blockchain.
 
@@ -178,15 +159,13 @@ class Blockchain:
 
     def mine_block(self):
         """Create a new block and add open transactions to it."""
-        if self.public_key == None:
+        if self.public_key is None:
             return None
         last_block = self.__chain[-1]
         hashed_block = hash_block(last_block)
         proof = self.proof_of_work()
         reward_transaction = Transaction(
             'MINING', self.public_key, '', MINING_REWARD)
-        # Copy transaction instead of manipulating the original open_transactions list
-        # This ensures that if for some reason the mining should fail, we don't have the reward transaction stored in the open transactions
         copied_transactions = self.__open_transactions[:]
         for tx in copied_transactions:
             if not Wallet.verify_transaction(tx):
@@ -206,6 +185,8 @@ class Blockchain:
                 response = requests.post(url, json={'block': converted_block})
                 if response.status_code == 400 or response.status_code == 500:
                     print('Block declined, needs resolving')
+                if response.status_code == 409:
+                    self.resolve_conflicts = True
             except requests.exceptions.ConnectionError:
                 continue
         return block
@@ -231,6 +212,31 @@ class Blockchain:
                         print('Item was already removed')
         self.save_data()
         return True
+
+    def resolve(self):
+        winner_chain = self.chain
+        replace = False
+        for node in self.__peer_nodes:
+            url = 'http://{}/chain'.format(node)
+            try:
+                response = requests.get(url)
+                node_chain = response.json()
+                node_chain = [Block(block['index'], block['previous_hash'], [Transaction(
+                    tx['sender'], tx['recipient'], tx['signature'], tx['amount']) for tx in block['transactions']],
+                    block['proof'], block['timestamp']) for block in node_chain]
+                node_chain_length = len(node_chain)
+                local_chain_length = len(winner_chain)
+                if node_chain_length > local_chain_length and Verification.verify_chain(node_chain):
+                    winner_chain = node_chain
+                    replace = True
+            except requests.exceptions.ConnectionError:
+                continue
+        self.resolve_conflicts = False
+        self.chain = winner_chain
+        if replace:
+            self.__open_transactions = []
+        self.save_data()
+        return replace
 
     def add_peer_node(self, node):
         """Adds a new node to the peer node set.

@@ -1,3 +1,4 @@
 .vscode
 *.p
+*.txt
 __pycache__/
