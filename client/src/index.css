@@ -22,3 +22,15 @@
 .ui.success.message {
   text-align: center;
 }
+
+.ui.form {
+  margin-top: 2rem;
+  grid-column-start: 4;
+  grid-column-end: 11;
+}
+
+.ui.divider {
+  grid-row-start: 2;
+  grid-column-start: 1;
+  grid-column-end: -1;
+}

@@ -1,7 +1,6 @@
 import {
   CREATE_WALLET,
   SET_WALLET,
-  SEND_TX,
   MINE_BLOCK,
   RESOLVE_CHAIN,
   SET_FUNDS
@@ -20,10 +19,6 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case CREATE_WALLET: {
       console.log('Wallet created');
-      break;
-    }
-    case SEND_TX: {
-      console.log('TX sent');
       break;
     }
     case MINE_BLOCK: {

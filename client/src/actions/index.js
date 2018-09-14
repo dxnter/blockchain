@@ -50,6 +50,22 @@ export function setWallet(wallet) {
   };
 }
 
+export function createTransaction(values) {
+  return dispatch => {
+    axios
+      .post(`${ROOT_URL}/transaction`, {
+        recipient: values.recipient,
+        amount: Number(values.amount)
+      })
+      .then(response => {
+        dispatch(setFunds(response.data.funds));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+}
+
 export function setFunds(amt) {
   return {
     type: SET_FUNDS,
