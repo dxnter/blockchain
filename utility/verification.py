@@ -9,7 +9,7 @@ class Verification:
     @staticmethod
     def valid_proof(transactions, last_hash, proof):
         """Validate a proof of work number and see if it solves
-        the puzzle algorithm (two leading 0s)
+        the hashing algorithm (two leading 0s)
 
         Arguments:
             :transactions: The transactions of the block for which the proof is created.

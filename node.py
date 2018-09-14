@@ -182,7 +182,7 @@ def mine():
         response = {'message': 'Resolve conflicts first, block not added!'}
         return jsonify(response), 409
     block = blockchain.mine_block()
-    if block is None:
+    if block is not None:
         dict_block = block.__dict__.copy()
         dict_block['transactions'] = [
             tx.__dict__ for tx in dict_block['transactions']]

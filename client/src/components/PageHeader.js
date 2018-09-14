@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Header, Icon, Menu } from 'semantic-ui-react';
+import CreateWallet from './CreateWallet';
 
 class PageHeader extends Component {
   fetchActiveTab() {
@@ -28,10 +30,29 @@ class PageHeader extends Component {
             name="Network"
             active={activeTab === '/network'}
           />
+          <Menu.Menu position="right">
+            <Menu.Item>
+              <Header as="h1" color="green">
+                {this.props.funds} BTC
+              </Header>
+            </Menu.Item>
+            {this.props.wallet && (
+              <Menu.Item>
+                <CreateWallet />
+              </Menu.Item>
+            )}
+          </Menu.Menu>
         </Menu>
       </Fragment>
     );
   }
 }
 
-export default withRouter(PageHeader);
+const mapStateToProps = ({ network }) => {
+  return {
+    funds: network.funds,
+    wallet: network.wallet
+  };
+};
+
+export default withRouter(connect(mapStateToProps)(PageHeader));

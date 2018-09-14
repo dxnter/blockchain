@@ -1,3 +1,24 @@
 .container {
   margin-top: 1.5em;
 }
+
+.node {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(auto-fit, 1fr);
+}
+
+.segment {
+  grid-column-start: 4;
+  grid-column-end: 11;
+}
+
+.ui.message {
+  grid-row-start: 2;
+  grid-column-start: 4;
+  grid-column-end: 11;
+}
+
+.ui.success.message {
+  text-align: center;
+}

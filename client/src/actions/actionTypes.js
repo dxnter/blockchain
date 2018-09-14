@@ -1,7 +1,6 @@
-export const FETCH_ACTIVE_TAB = 'FETCH_ACTIVE_TAB';
-
 export const CREATE_WALLET = 'CREATE_WALLET';
-export const LOAD_WALLET = 'LOAD_WALLET';
+export const SET_WALLET = 'SET_WALLET';
+export const SET_FUNDS = 'SET_FUNDS';
 export const SEND_TX = 'SEND_TX';
 export const MINE_BLOCK = 'MINE_BLOCK';
 export const RESOLVE_CHAIN = 'RESOLVE_CHAIN';

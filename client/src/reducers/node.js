@@ -1,36 +1,25 @@
 import {
   CREATE_WALLET,
-  LOAD_WALLET,
+  SET_WALLET,
   SEND_TX,
   MINE_BLOCK,
-  RESOLVE_CHAIN
+  RESOLVE_CHAIN,
+  SET_FUNDS
 } from '../actions/actionTypes';
 
 const initialState = {
   blockchain: [],
   openTransactions: [],
   wallet: null,
-  walletLoading: false,
-  txLoading: false,
-  dataLoading: false,
-  showElement: null,
   error: null,
   success: null,
-  funds: 0,
-  outgoingTx: {
-    recipient: '',
-    amount: 0
-  }
+  funds: 0.0
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case CREATE_WALLET: {
       console.log('Wallet created');
-      break;
-    }
-    case LOAD_WALLET: {
-      console.log('Wallet loaded');
       break;
     }
     case SEND_TX: {
@@ -44,6 +33,18 @@ export default function(state = initialState, action) {
     case RESOLVE_CHAIN: {
       console.log('Blockchain resolved');
       break;
+    }
+    case SET_WALLET: {
+      return {
+        ...state,
+        wallet: {
+          public_key: action.wallet.public_key,
+          private_key: action.wallet.private_key
+        }
+      };
+    }
+    case SET_FUNDS: {
+      return { ...state, funds: action.funds };
     }
     default:
       return state;
