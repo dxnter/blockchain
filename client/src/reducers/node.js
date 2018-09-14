@@ -3,15 +3,21 @@ import {
   SET_WALLET,
   MINE_BLOCK,
   RESOLVE_CHAIN,
-  SET_FUNDS
+  SET_FUNDS,
+  TX_ERROR,
+  MINE_ERROR,
+  TX_SUCCESS,
+  MINE_SUCCESS
 } from '../actions/actionTypes';
 
 const initialState = {
   blockchain: [],
   openTransactions: [],
   wallet: null,
-  error: null,
-  success: null,
+  tx_error: null,
+  mine_error: null,
+  tx_success: null,
+  mine_success: null,
   funds: 0.0
 };
 
@@ -40,6 +46,18 @@ export default function(state = initialState, action) {
     }
     case SET_FUNDS: {
       return { ...state, funds: action.funds };
+    }
+    case TX_ERROR: {
+      return { ...state, tx_error: action.error };
+    }
+    case MINE_ERROR: {
+      return { ...state, mine_error: action.error };
+    }
+    case TX_SUCCESS: {
+      return { ...state, tx_success: action.success };
+    }
+    case MINE_SUCCESS: {
+      return { ...state, mine_success: action.success };
     }
     default:
       return state;

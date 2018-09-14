@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, reset } from 'redux-form';
 import { Form, Button, Message } from 'semantic-ui-react';
 import { validate } from '../utils';
 
-import { createTransaction } from '../actions';
+import { createTransaction, setTxError, setTxSuccess } from '../actions';
 
 const renderField = field => {
   const {
@@ -17,7 +17,7 @@ const renderField = field => {
     <Form.Field>
       <label>{label}</label>
       <input placeholder="Enter key" {...input} />
-      {touched && (error && <Message size="mini" negative header={error} />)}
+      {touched && error && <Message size="mini" negative header={error} />}
     </Form.Field>
   );
 };
@@ -37,14 +37,27 @@ class NewTransaction extends Component {
   }
 }
 
-const onSubmit = (values, dispatch) => {
-  dispatch(createTransaction(values));
+const mapStateToProps = ({ network }) => {
+  return {
+    funds: network.funds
+  };
 };
 
-export default connect()(
+export default connect(
+  mapStateToProps,
+  null
+)(
   reduxForm({
     form: 'NewTransaction',
     validate,
-    onSubmit
+    onSubmit: (values, dispatch, props) => {
+      if (values.amount > props.funds) {
+        dispatch(setTxSuccess(null));
+        return dispatch(setTxError('Insufficient balance'));
+      }
+      dispatch(createTransaction(values));
+      dispatch(reset('NewTransaction'));
+      dispatch(setTxError(null));
+    }
   })(NewTransaction)
 );

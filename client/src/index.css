@@ -13,31 +13,31 @@
   grid-column-end: 11;
 }
 
-.ui.message {
-  grid-row-start: 2;
-  grid-column-start: 4;
-  grid-column-end: 11;
-}
-
+.ui.error.message,
 .ui.success.message {
   text-align: center;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  grid-row-start: 1;
+  grid-column-start: 5;
+  grid-column-end: 9;
 }
 
 .ui.form {
-  margin-top: 2rem;
+  grid-row-start: 2;
   grid-column-start: 5;
   grid-column-end: 9;
 }
 
 .ui.divider {
-  grid-row-start: 2;
+  grid-row-start: 3;
   grid-column-start: 1;
   grid-column-end: -1;
   margin-bottom: 2rem;
 }
 
 #MineOrResolve {
-  grid-row-start: 3;
+  grid-row-start: 4;
   grid-column-start: 1;
   grid-column-end: -1;
   display: flex;

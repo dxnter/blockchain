@@ -33,7 +33,7 @@ class PageHeader extends Component {
           <Menu.Menu position="right">
             <Menu.Item>
               <Header as="h1" color="green">
-                {this.props.funds} BTC
+                {this.props.funds.toFixed(3)} BTC
               </Header>
             </Menu.Item>
             {this.props.wallet && (
