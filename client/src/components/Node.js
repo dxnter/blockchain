@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Divider } from 'semantic-ui-react';
 import CreateOrLoadWallet from './CreateOrLoadWallet';
 import NewTransaction from './NewTransaction';
+import MineOrResolve from './MineOrResolve';
 
 class Node extends Component {
   render() {
@@ -11,6 +12,7 @@ class Node extends Component {
         {!this.props.wallet && <CreateOrLoadWallet />}
         {this.props.wallet && <NewTransaction />}
         {this.props.wallet && <Divider />}
+        {this.props.wallet && <MineOrResolve />}
       </div>
     );
   }
