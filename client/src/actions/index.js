@@ -10,6 +10,8 @@ import {
 
 const ROOT_URL = 'http://localhost:5000';
 
+// TODO: Make a global reset errors variable?
+
 export function createWallet() {
   return (dispatch, getState) => {
     axios
@@ -64,6 +66,8 @@ export function createTransaction(values) {
         amount: Number(values.amount)
       })
       .then(response => {
+        dispatch(setMineSuccess(null));
+        dispatch(setMineError(null));
         dispatch(setTxSuccess(`Sent ${values.amount} BTC`));
         dispatch(setFunds(response.data.funds));
       })
@@ -76,13 +80,17 @@ export function createTransaction(values) {
 export function mineBlock() {
   return dispatch => {
     axios
-      .post('/mine')
+      .post(`${ROOT_URL}/mine`)
       .then(response => {
+        dispatch(setTxError(null));
+        dispatch(setTxSuccess(null));
         dispatch(setMineError(null));
         dispatch(setMineSuccess(response.data.message));
         dispatch(setFunds(response.data.funds));
       })
       .catch(err => {
+        dispatch(setTxError(null));
+        dispatch(setTxSuccess(null));
         dispatch(setMineSuccess(null));
         dispatch(setMineError(err.response.data.message));
       });

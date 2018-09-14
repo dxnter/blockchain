@@ -12,6 +12,7 @@ class Node extends Component {
         {!this.props.wallet && <CreateOrLoadWallet />}
         {this.props.tx_error && (
           <Message
+            id="txError"
             error
             header="Transaction Failure"
             content={this.props.tx_error}
@@ -19,6 +20,7 @@ class Node extends Component {
         )}
         {this.props.tx_success && (
           <Message
+            id="txSuccess"
             success
             header="Transaction Success"
             content={this.props.tx_success}
@@ -27,6 +29,22 @@ class Node extends Component {
         {this.props.wallet && <NewTransaction />}
         {this.props.wallet && <Divider />}
         {this.props.wallet && <MineOrResolve />}
+        {this.props.mine_error && (
+          <Message
+            id="mineFailure"
+            error
+            header="Mining Failure"
+            content={this.props.mine_error}
+          />
+        )}
+        {this.props.mine_success && (
+          <Message
+            id="mineSuccess"
+            success
+            header="Mining Success"
+            content={this.props.mine_success}
+          />
+        )}
       </div>
     );
   }
@@ -36,7 +54,9 @@ const mapStateToProps = ({ network }) => {
   return {
     wallet: network.wallet,
     tx_error: network.tx_error,
-    tx_success: network.tx_success
+    mine_error: network.mine_error,
+    tx_success: network.tx_success,
+    mine_success: network.mine_success
   };
 };
 
