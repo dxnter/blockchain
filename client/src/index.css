@@ -68,7 +68,11 @@
 
 .accordion {
   margin-top: 1.5rem;
-  grid-row-start: 6;
+  grid-row-start: 7;
   grid-column-start: 3;
   grid-column-end: 11;
+}
+
+.content.active {
+  overflow: hidden;
 }

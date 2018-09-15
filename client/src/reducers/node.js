@@ -8,7 +8,8 @@ import {
   MINE_ERROR,
   TX_SUCCESS,
   MINE_SUCCESS,
-  SET_BLOCKCHAIN
+  SET_BLOCKCHAIN,
+  SET_OPEN_TX
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -49,6 +50,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         blockchain: action.blockchain
+      };
+    }
+    case SET_OPEN_TX: {
+      return {
+        ...state,
+        openTransactions: action.transactions
       };
     }
     case SET_FUNDS: {

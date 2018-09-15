@@ -7,7 +7,8 @@ import {
   setMineError,
   setTxSuccess,
   setMineSuccess,
-  setBlockchain
+  setBlockchain,
+  setOpenTrasactions
 } from './setters';
 
 const ROOT_URL = 'http://localhost:5000';
@@ -58,10 +59,11 @@ export function createTransaction(values) {
         amount: Number(values.amount)
       })
       .then(response => {
-        dispatch(setMineSuccess(null));
-        dispatch(setMineError(null));
         dispatch(setTxSuccess(`Sent ${values.amount} BTC`));
         dispatch(setFunds(response.data.funds));
+        dispatch(setMineSuccess(null));
+        dispatch(setMineError(null));
+        dispatch(loadOpenTransactions());
       })
       .catch(err => {
         console.log(err);
@@ -82,22 +84,32 @@ export function loadBlockchain() {
   };
 }
 
+export function loadOpenTransactions() {
+  return dispatch => {
+    axios.get(`${ROOT_URL}/transactions`).then(response => {
+      dispatch(setOpenTrasactions(response.data));
+    });
+  };
+}
+
 export function mineBlock() {
   return dispatch => {
     axios
       .post(`${ROOT_URL}/mine`)
       .then(response => {
+        dispatch(setMineSuccess(response.data.message));
+        dispatch(setFunds(response.data.funds));
+        dispatch(loadOpenTransactions());
+        dispatch(loadBlockchain());
         dispatch(setTxError(null));
         dispatch(setTxSuccess(null));
         dispatch(setMineError(null));
-        dispatch(setMineSuccess(response.data.message));
-        dispatch(setFunds(response.data.funds));
       })
       .catch(err => {
+        dispatch(setMineError(err.response.data.message));
         dispatch(setTxError(null));
         dispatch(setTxSuccess(null));
         dispatch(setMineSuccess(null));
-        dispatch(setMineError(err.response.data.message));
       });
   };
 }

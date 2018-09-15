@@ -5,6 +5,7 @@ import CreateOrLoadWallet from './CreateOrLoadWallet';
 import NewTransaction from './NewTransaction';
 import MineOrResolve from './MineOrResolve';
 import Blockchain from './Blockchain';
+import OpenTransactions from './OpenTransactions';
 
 class Node extends Component {
   render() {
@@ -46,6 +47,7 @@ class Node extends Component {
             content={this.props.mine_success}
           />
         )}
+        {this.props.wallet && <OpenTransactions />}
         {this.props.wallet && <Blockchain />}
       </div>
     );

@@ -5,7 +5,8 @@ import {
   TX_ERROR,
   MINE_ERROR,
   TX_SUCCESS,
-  MINE_SUCCESS
+  MINE_SUCCESS,
+  SET_OPEN_TX
 } from './actionTypes';
 
 export function setWallet(wallet) {
@@ -19,6 +20,13 @@ export function setBlockchain(blockchain) {
   return {
     type: SET_BLOCKCHAIN,
     blockchain
+  };
+}
+
+export function setOpenTrasactions(transactions) {
+  return {
+    type: SET_OPEN_TX,
+    transactions
   };
 }
 
