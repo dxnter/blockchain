@@ -1,16 +1,16 @@
 import axios from 'axios';
+
 import {
-  SET_WALLET,
-  SET_FUNDS,
-  TX_ERROR,
-  MINE_ERROR,
-  TX_SUCCESS,
-  MINE_SUCCESS
-} from './actionTypes';
+  setWallet,
+  setFunds,
+  setTxError,
+  setMineError,
+  setTxSuccess,
+  setMineSuccess,
+  setBlockchain
+} from './setters';
 
 const ROOT_URL = 'http://localhost:5000';
-
-// TODO: Make a global reset errors variable?
 
 export function createWallet() {
   return (dispatch, getState) => {
@@ -46,15 +46,7 @@ export function loadWallet() {
       })
       .catch(err => {
         console.log(`Error on loadWallet() ${err}`);
-        dispatch(setWallet(null));
       });
-  };
-}
-
-export function setWallet(wallet) {
-  return {
-    type: SET_WALLET,
-    wallet
   };
 }
 
@@ -70,6 +62,19 @@ export function createTransaction(values) {
         dispatch(setMineError(null));
         dispatch(setTxSuccess(`Sent ${values.amount} BTC`));
         dispatch(setFunds(response.data.funds));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+}
+
+export function loadBlockchain() {
+  return dispatch => {
+    axios
+      .get(`${ROOT_URL}/chain`)
+      .then(response => {
+        dispatch(setBlockchain(response.data));
       })
       .catch(err => {
         console.log(err);
@@ -97,37 +102,17 @@ export function mineBlock() {
   };
 }
 
-export function setFunds(amt) {
-  return {
-    type: SET_FUNDS,
-    funds: amt
-  };
-}
-
-export function setTxError(error) {
-  return {
-    type: TX_ERROR,
-    error
-  };
-}
-
-export function setMineError(error) {
-  return {
-    type: MINE_ERROR,
-    error
-  };
-}
-
-export function setTxSuccess(success) {
-  return {
-    type: TX_SUCCESS,
-    success
-  };
-}
-
-export function setMineSuccess(success) {
-  return {
-    type: MINE_SUCCESS,
-    success
+export function resolveBlock() {
+  return dispatch => {
+    axios
+      .post(`${ROOT_URL}/resolve-conflicts`)
+      .then(response => {
+        dispatch(setMineError(null));
+        dispatch(setMineSuccess(response.data.message));
+      })
+      .catch(err => {
+        dispatch(setMineSuccess(null));
+        dispatch(setMineError(err.response.data.message));
+      });
   };
 }

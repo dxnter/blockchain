@@ -4,6 +4,7 @@ import { Divider, Message } from 'semantic-ui-react';
 import CreateOrLoadWallet from './CreateOrLoadWallet';
 import NewTransaction from './NewTransaction';
 import MineOrResolve from './MineOrResolve';
+import Blockchain from './Blockchain';
 
 class Node extends Component {
   render() {
@@ -33,7 +34,7 @@ class Node extends Component {
           <Message
             id="mineFailure"
             error
-            header="Mining Failure"
+            header="Failure"
             content={this.props.mine_error}
           />
         )}
@@ -41,10 +42,11 @@ class Node extends Component {
           <Message
             id="mineSuccess"
             success
-            header="Mining Success"
+            header="Success"
             content={this.props.mine_success}
           />
         )}
+        {this.props.wallet && <Blockchain />}
       </div>
     );
   }

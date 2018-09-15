@@ -4,7 +4,8 @@ import { Field, reduxForm, reset } from 'redux-form';
 import { Form, Button, Message } from 'semantic-ui-react';
 import { validate } from '../utils';
 
-import { createTransaction, setTxError, setTxSuccess } from '../actions';
+import { createTransaction } from '../actions';
+import { setTxError, setTxSuccess } from '../actions/setters';
 
 const renderField = field => {
   const {

@@ -7,7 +7,8 @@ import {
   TX_ERROR,
   MINE_ERROR,
   TX_SUCCESS,
-  MINE_SUCCESS
+  MINE_SUCCESS,
+  SET_BLOCKCHAIN
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -42,6 +43,12 @@ export default function(state = initialState, action) {
           public_key: action.wallet.public_key,
           private_key: action.wallet.private_key
         }
+      };
+    }
+    case SET_BLOCKCHAIN: {
+      return {
+        ...state,
+        blockchain: action.blockchain
       };
     }
     case SET_FUNDS: {

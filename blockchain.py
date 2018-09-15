@@ -220,8 +220,7 @@ class Blockchain:
         for node in self.__peer_nodes:
             url = 'http://{}/chain'.format(node)
             try:
-                response = requests.get(url)
-                node_chain = response.json()
+                node_chain = requests.get(url).json()
                 node_chain = [Block(block['index'], block['previous_hash'], [Transaction(
                     tx['sender'], tx['recipient'], tx['signature'], tx['amount']) for tx in block['transactions']],
                     block['proof'], block['timestamp']) for block in node_chain]

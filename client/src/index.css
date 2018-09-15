@@ -13,6 +13,10 @@
   grid-column-end: 11;
 }
 
+.ui.padded.segment {
+  margin-top: 4rem;
+}
+
 .ui.error.message,
 .ui.success.message {
   text-align: center;
@@ -42,6 +46,7 @@
   grid-column-end: -1;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 1.5rem;
 }
 
 #mineFailure,
@@ -59,4 +64,11 @@
     grid-column-start: 3;
     grid-column-end: 11;
   }
+}
+
+.accordion {
+  margin-top: 1.5rem;
+  grid-row-start: 6;
+  grid-column-start: 3;
+  grid-column-end: 11;
 }

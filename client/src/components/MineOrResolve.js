@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 
-import { mineBlock } from '../actions';
+import { mineBlock, resolveBlock } from '../actions';
 
 const MineOrResolve = props => {
   return (
@@ -15,6 +15,7 @@ const MineOrResolve = props => {
         content="Mine"
       />
       <Button
+        onClick={props.resolveBlock}
         size="large"
         color="orange"
         icon="object ungroup outline"
@@ -26,5 +27,5 @@ const MineOrResolve = props => {
 
 export default connect(
   null,
-  { mineBlock }
+  { mineBlock, resolveBlock }
 )(MineOrResolve);

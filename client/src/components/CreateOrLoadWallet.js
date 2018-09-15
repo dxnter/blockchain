@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Segment, Button, Divider } from 'semantic-ui-react';
 
-import { loadWallet } from '../actions';
+import { loadWallet, createWallet } from '../actions';
 
 const CreateOrLoadWallet = props => {
   return (
     <Segment padded>
-      <Button color="green" fluid>
+      <Button onClick={props.createWallet} color="green" fluid>
         Create a new wallet
       </Button>
       <Divider horizontal>Or</Divider>
@@ -20,5 +20,5 @@ const CreateOrLoadWallet = props => {
 
 export default connect(
   null,
-  { loadWallet }
+  { loadWallet, createWallet }
 )(CreateOrLoadWallet);
