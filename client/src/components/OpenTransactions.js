@@ -9,7 +9,13 @@ const OpenTransactionsWrapper = styled.div`
   grid-column-start: 2;
   grid-column-end: 12;
   display: grid;
-  grid-template-rows: (auto-fit);
+  grid-template-rows: auto;
+  overflow: hidden;
+  border-radius: 0.2rem;
+  ul {
+    border: solid 1px rgba(34, 36, 38, 0.15);
+    overflow: hidden;
+  }
 `;
 
 class OpenTransactions extends Component {
@@ -20,13 +26,13 @@ class OpenTransactions extends Component {
   render() {
     return (
       <OpenTransactionsWrapper>
-        {this.props.openTransactions.map(transaction => {
+        {this.props.openTransactions.reverse().map(transaction => {
           return (
-            <div>
-              {transaction.sender}
-              {transaction.recipient}
-              {transaction.amount}
-            </div>
+            <ul>
+              <li>{transaction.sender}</li>
+              <li>{transaction.recipient}</li>
+              <li>{transaction.amount}</li>
+            </ul>
           );
         })}
       </OpenTransactionsWrapper>

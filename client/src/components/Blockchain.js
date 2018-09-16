@@ -10,7 +10,6 @@ class Blockchain extends Component {
   }
   render() {
     const rootPanels = this.props.blockchain.map((block, panelIndex) => {
-      console.log(block);
       return {
         key: `block-${panelIndex}`,
         title: `Block ${panelIndex}`,

@@ -8,7 +8,10 @@ import {
   setTxSuccess,
   setMineSuccess,
   setBlockchain,
-  setOpenTrasactions
+  setOpenTrasactions,
+  setNetworkSuccess,
+  setNetworkError,
+  setNodes
 } from './setters';
 
 const ROOT_URL = 'http://localhost:5000';
@@ -125,6 +128,54 @@ export function resolveBlock() {
       .catch(err => {
         dispatch(setMineSuccess(null));
         dispatch(setMineError(err.response.data.message));
+      });
+  };
+}
+
+export function addNote(newNodeUrl) {
+  return dispatch => {
+    axios
+      .post(`${ROOT_URL}/node`, { node: newNodeUrl })
+      .then(response => {
+        dispatch(setNetworkSuccess('Stored node successfully.'));
+        dispatch(setNetworkError(null));
+        dispatch(setNodes(response.data.all_nodes));
+      })
+      .catch(err => {
+        dispatch(setNetworkSuccess(null));
+        dispatch(setNetworkError(err.response.data.message));
+      });
+  };
+}
+
+export function loadNodes() {
+  return dispatch => {
+    axios
+      .get(`${ROOT_URL}/nodes`)
+      .then(response => {
+        dispatch(setNetworkSuccess('Fetched nodes successfully.'));
+        dispatch(setNetworkError(null));
+        dispatch(setNodes(response.data.all_nodes));
+      })
+      .catch(err => {
+        dispatch(setNetworkError(null));
+        dispatch(setNetworkError(err.response.data.message));
+      });
+  };
+}
+
+export function removeNode(nodeUrl) {
+  return dispatch => {
+    axios
+      .delete(`${ROOT_URL}/node/${nodeUrl}`)
+      .then(response => {
+        dispatch(setNetworkError(null));
+        dispatch(setNetworkSuccess('Deleted node successfully.'));
+        dispatch(setNodes(response.data.all_nodes));
+      })
+      .catch(err => {
+        dispatch(setNetworkSuccess(null));
+        dispatch(setNetworkError(err.response.data.message));
       });
   };
 }

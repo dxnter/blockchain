@@ -1,4 +1,9 @@
-import { ADD_NODE, LOAD_NODES, REMOVE_NODE } from '../actions/actionTypes';
+import {
+  SET_NEW_NODE_URL,
+  SET_NODES,
+  SET_NETWORK_ERROR,
+  SET_NETWORK_SUCCESS
+} from '../actions/actionTypes';
 
 const initialState = {
   nodes: [],
@@ -9,17 +14,17 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case ADD_NODE: {
-      console.log('Add node');
-      break;
+    case SET_NEW_NODE_URL: {
+      return { ...state, newNodeUrl: action.url };
     }
-    case LOAD_NODES: {
-      console.log('Load nodes');
-      break;
+    case SET_NODES: {
+      return { ...state, nodes: action.nodes };
     }
-    case REMOVE_NODE: {
-      console.log('Node removed');
-      break;
+    case SET_NETWORK_ERROR: {
+      return { ...state, error: action.error };
+    }
+    case SET_NETWORK_SUCCESS: {
+      return { ...state, success: action.success };
     }
     default:
       return state;

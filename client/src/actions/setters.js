@@ -2,8 +2,12 @@ import {
   SET_WALLET,
   SET_BLOCKCHAIN,
   SET_FUNDS,
+  SET_NEW_NODE_URL,
+  SET_NODES,
   TX_ERROR,
   MINE_ERROR,
+  SET_NETWORK_ERROR,
+  SET_NETWORK_SUCCESS,
   TX_SUCCESS,
   MINE_SUCCESS,
   SET_OPEN_TX
@@ -37,6 +41,20 @@ export function setFunds(amt) {
   };
 }
 
+export function setNewNodeUrl(url) {
+  return {
+    type: SET_NEW_NODE_URL,
+    url
+  };
+}
+
+export function setNodes(nodes) {
+  return {
+    type: SET_NODES,
+    nodes
+  };
+}
+
 export function setTxError(error) {
   return {
     type: TX_ERROR,
@@ -51,6 +69,13 @@ export function setMineError(error) {
   };
 }
 
+export function setNetworkError(error) {
+  return {
+    type: SET_NETWORK_ERROR,
+    error
+  };
+}
+
 export function setTxSuccess(success) {
   return {
     type: TX_SUCCESS,
@@ -61,6 +86,13 @@ export function setTxSuccess(success) {
 export function setMineSuccess(success) {
   return {
     type: MINE_SUCCESS,
+    success
+  };
+}
+
+export function setNetworkSuccess(success) {
+  return {
+    type: SET_NETWORK_SUCCESS,
     success
   };
 }
