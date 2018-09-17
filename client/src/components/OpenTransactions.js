@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import shortid from 'shortid';
 
 import { loadOpenTransactions } from '../actions';
 
@@ -28,7 +29,7 @@ class OpenTransactions extends Component {
       <OpenTransactionsWrapper>
         {this.props.openTransactions.reverse().map(transaction => {
           return (
-            <ul>
+            <ul key={shortid.generate()}>
               <li>{transaction.sender}</li>
               <li>{transaction.recipient}</li>
               <li>{transaction.amount}</li>

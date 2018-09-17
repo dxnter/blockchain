@@ -132,7 +132,7 @@ export function resolveBlock() {
   };
 }
 
-export function addNote(newNodeUrl) {
+export function addNode(newNodeUrl) {
   return dispatch => {
     axios
       .post(`${ROOT_URL}/node`, { node: newNodeUrl })
