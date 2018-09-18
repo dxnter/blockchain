@@ -14,7 +14,8 @@ Both the Python API and the development server for the client need to be running
 ```
 git clone https://github.com/dxnter/blockchain.git
 cd blockchain/client
-npm i || yarn
+npm i OR yarn
+npm start OR yarn start
 cd ..
 python node.py [-p]
 ```
