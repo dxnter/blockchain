@@ -1,6 +1,6 @@
 # blockchain
 
-Simple Python blockchain with a Flask API and a React frontend
+Simple Python blockchain with a Flask API and a React frontend. The blockchain was from [a course](https://www.udemy.com/learn-python-by-building-a-blockchain-cryptocurrency/) while the front end was a rewrite in React.
 
 ![Site image](https://i.imgur.com/YsMub4p.png)
 
