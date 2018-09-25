@@ -16,8 +16,7 @@ git clone https://github.com/dxnter/blockchain.git
 cd blockchain/client
 npm i OR yarn
 npm start OR yarn start
--- In a separate console --
-cd ..
+-- In a separate console at the root project directory --
 python node.py [-p]
 ```
 #### Paramaters
